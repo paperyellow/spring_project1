@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class BoardsController {
+	
 
-	@GetMapping("/boards")
+	@GetMapping({"/", "/boards"})
 	public String getBoardList() {
 		return "boards/main";
 	}
