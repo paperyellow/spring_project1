@@ -4,20 +4,15 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-<br /> <br />
+	<br /> <br />
 	<div>
-		<h3>제목입니다.</h3>
+		<h3>${boards.title}</h3>
 	</div>
 	<hr/>
 
-	<div>내용입니다</div>
-	
-<c:forEach var="boards" items="">
-</c:forEach>
-	
+	<div>${boards.content}</div>
 
 
 </div>
 
 <%@ include file="../layout/footer.jsp"%>
-

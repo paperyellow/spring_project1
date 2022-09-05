@@ -39,9 +39,10 @@ public class UsersController {
 	
 	@PostMapping("/join")
 	public String join(JoinDto joinDto) {
-		return "redirect:/joinform";
+		usersDao.insert(joinDto);
+		return "redirect:/loginForm";
 	}
-
+	
 	@GetMapping("/loginForm")
 	public String loginForm() {
 		return "users/loginForm";

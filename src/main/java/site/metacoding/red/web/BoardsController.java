@@ -24,32 +24,40 @@ public class BoardsController {
 
 	private final HttpSession session;
 	private final BoardsDao boardsDao;
-
+	// @PostMapping("/boards/{id}/delete")
+	// @PostMapping("/boards/{id}/update")
+	
 	@PostMapping("/boards")
 	public String writeBoards(WriteDto writeDto) {
-		// 1번 세션에 접근해서 세션값을 확인한다. 그때 Users로 다운캐스팅한고 키값은 principal로 한다.
+		// 1번 세션에 접근해서 세션값을 확인한다. 그때 Users로 다운캐스팅하고 키값은 principal로 한다.
 		Users principal = (Users) session.getAttribute("principal");
-		// 2번 principal null인지 확인하고 null이면 loginForm 리다이렉션해준다.
-		if (principal == null) {
+		
+		// 2번 pricipal null인지 확인하고 null이면 loginForm 리다이렉션해준다.
+		if(principal == null) {
 			return "redirect:/loginForm";
 		}
+		
 		// 3번 BoardsDao에 접근해서 insert 메서드를 호출한다.
 		// 조건 : dto를 entity로 변환해서 인수로 담아준다.
-		// 조건 : entity에는 세션의 principal의 getId가 필요하다.
-		boardsDao.insert(writeDto.toEntitiy(principal.getId()));
+		// 조건 : entity에는 세션의 principal에 getId가 필요하다.
+		boardsDao.insert(writeDto.toEntity(principal.getId()));
 		
 		return "redirect:/";
 	}
 
 	@GetMapping({ "/", "/boards" })
-	public String getBoardList(Model model) {
-		List<MainDto> boardsList = boardsDao.findAll();
+	public String getBoardList(Model model, Integer page) {
+		if(page == null) page = 0;
+		
+		int startNum = page*10;
+		List<MainDto> boardsList = boardsDao.findAll(startNum);
 		model.addAttribute("boardsList", boardsList);
 		return "boards/main";
 	}
 
 	@GetMapping("/boards/{id}")
-	public String getBoardList(@PathVariable Integer id) {
+	public String getBoardList(@PathVariable Integer id, Model model) {
+		model.addAttribute("boards", boardsDao.findById(id));
 		return "boards/detail";
 	}
 

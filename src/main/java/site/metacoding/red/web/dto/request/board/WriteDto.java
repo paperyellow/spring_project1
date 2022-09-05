@@ -10,7 +10,7 @@ public class WriteDto {
 	private String title;
 	private String content;
 	
-	public Boards toEntitiy(Integer usersId) {
+	public Boards toEntity(Integer usersId) {
 		Boards boards = new Boards(this.title, this.content, usersId);
 		return boards;
 	}
