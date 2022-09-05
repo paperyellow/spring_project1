@@ -27,7 +27,7 @@ public class UsersController {
 	}
 	
 	@PostMapping("/login")
-	public String login(loginDto loginDto, HttpServletRequest request) {
+	public String login(loginDto loginDto) {
 		Users usersPS = usersDao.login(loginDto);
 		if(usersPS != null) {
 			session.setAttribute("principal", usersPS);
