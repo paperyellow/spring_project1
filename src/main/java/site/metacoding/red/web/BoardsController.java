@@ -20,15 +20,16 @@ public class BoardsController {
 
 	private final HttpSession session;
 	private final BoardsDao boardsDao;
-	
+
 	@PostMapping("/boards")
 	public String writeBoards(WriteDto writeDto) {
-		Users principal = (Users)session.getAttribute("principal");
-		Boards boards = new Boards();
-		boards.setTitle(writeDto.getTitle());
-		boards.setContent(writeDto.getContent());
-		boards.setUserId(principal.getId());
-		boardsDao.insert(boards);
+		Users principal = (Users) session.getAttribute("principal");
+
+		if (principal == null) {
+			return "redirect:/loginForm";
+		}
+
+		boardsDao.insert(writeDto.toEntitiy(principal.getId()));
 		return "redirect:/";
 	}
 
@@ -48,9 +49,9 @@ public class BoardsController {
 		// 오브젝트 타입으로 넣었으니 users 타입으로 다운캐스팅
 		if (principal == null) {
 			return "redirect:/loginForm";
-		} else {
-			return "boards/writeForm";
 		}
+		
+		return "boards/writeForm";
 
 	}
 }
