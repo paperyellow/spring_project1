@@ -12,6 +12,9 @@
 
 	<div>내용입니다</div>
 	
+<c:forEach var="boards" items="">
+</c:forEach>
+	
 
 
 </div>
