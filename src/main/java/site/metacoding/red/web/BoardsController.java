@@ -1,8 +1,11 @@
 package site.metacoding.red.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.boards.BoardsDao;
+import site.metacoding.red.domain.boards.mapper.MainView;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.domain.users.UsersDao;
 import site.metacoding.red.web.dto.request.board.WriteDto;
@@ -33,11 +37,14 @@ public class BoardsController {
 		// 조건 : dto를 entity로 변환해서 인수로 담아준다.
 		// 조건 : entity에는 세션의 principal의 getId가 필요하다.
 		boardsDao.insert(writeDto.toEntitiy(principal.getId()));
+		
 		return "redirect:/";
 	}
 
 	@GetMapping({ "/", "/boards" })
-	public String getBoardList() {
+	public String getBoardList(Model model) {
+		List<MainView> boardsList = boardsDao.findAll();
+		model.addAttribute("boardsList", boardsList);
 		return "boards/main";
 	}
 
