@@ -13,6 +13,10 @@
 		SELECT id, title, content FROM boards WHERE id=#{id}
 	</select>
 	
+	<select id="totalCount" resultType="Integer">
+		select count(*) from boards
+	</select>
+	
 	<select id="findAll" resultType="site.metacoding.red.web.dto.response.boards.MainDto">
 		SELECT b.id, b.title, u.username 
 		FROM boards b 

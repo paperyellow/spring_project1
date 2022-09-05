@@ -6,6 +6,7 @@ import java.util.List;
 import site.metacoding.red.web.dto.response.boards.MainDto;
 
 public interface BoardsDao {
+	public Integer totalCount();
 	public void insert(Boards boards); // DTO 생각해보기
 	public Boards findById(Integer id);
 	public List<MainDto> findAll(int startNum);

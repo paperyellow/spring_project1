@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.boards.BoardsDao;
 import site.metacoding.red.domain.users.Users;
-import site.metacoding.red.domain.users.UsersDao;
 import site.metacoding.red.web.dto.request.board.WriteDto;
 import site.metacoding.red.web.dto.response.boards.MainDto;
+import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
 @Controller
@@ -47,11 +46,20 @@ public class BoardsController {
 
 	@GetMapping({ "/", "/boards" })
 	public String getBoardList(Model model, Integer page) {
-		if(page == null) page = 0;
 		
+		PagingDto paging = new PagingDto();
+		Integer totalCount = boardsDao.totalCount();
+		paging.setTotalCount(totalCount);
+		Integer totalPage = totalCount/10;
+		if(totalPage % 10 != 0) {
+			totalPage = totalPage + 1;
+		}
+		paging.setTotalPage(totalPage);
+		if(page == null) page = 0;
 		int startNum = page*10;
 		List<MainDto> boardsList = boardsDao.findAll(startNum);
 		model.addAttribute("boardsList", boardsList);
+		model.addAttribute("paging", paging);
 		return "boards/main";
 	}
 
