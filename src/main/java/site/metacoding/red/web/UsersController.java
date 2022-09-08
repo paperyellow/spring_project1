@@ -52,4 +52,15 @@ public class UsersController {
 	public String joinForm() {
 		return "users/joinForm";
 	}
+//	
+//	@PostMapping("/users")
+//	public Integer insert(String username, String password, String email) {
+//		
+//	}
+//	@PostMapping("/users")
+//	public Integer insert(Users users) {
+//		
+//	}
+	
+	
 }

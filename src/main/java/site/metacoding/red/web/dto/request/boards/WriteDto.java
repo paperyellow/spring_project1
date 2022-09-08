@@ -1,4 +1,4 @@
-package site.metacoding.red.web.dto.request.board;
+package site.metacoding.red.web.dto.request.boards;
 
 import lombok.Getter;
 import lombok.Setter;
